@@ -42,13 +42,13 @@ public class BottleSong {
     }
 
     private String transform(int bottles) {
-        final String[] numbers = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+        final String[] numbers = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
                 "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen",
                 "nineteen", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
         if (bottles > 9 && bottles < 20) {
-            return (numbers[bottles-1]);
+            return (numbers[bottles]);
         } else {
-            return (numbers[bottles/10-1] + numbers[bottles%10-1]);
+            return (numbers[bottles/10] + numbers[bottles%10]);
         }
     }
 
@@ -58,15 +58,15 @@ public class BottleSong {
         while (total - count > 0) {
             String bottles = transform(count);
 
-            lyrics += total + " bottles of beer on the wall, " + total + " bottles of beer\n Take " + bottles +
-                    " down, pass it around ";
+            lyrics += total + " bottles of beer on the wall, " + total + " bottles of beer.\nTake " + bottles +
+                    " down and pass around, ";
             total -= count;
-            lyrics += total + " bottles of beer\n";
+            lyrics += total + " bottles of beer on the wall.\n";
 
         }
-        lyrics += "Take " + transform(total%count) + " down, pass it around, no more bottles of beer on the wall\n" +
-                " No more bottles of beer on the wall, no more bottles of beer\n" +
-                " Go to the store and buy some more, 99 bottles of beer on the wall";
+        lyrics += total + " bottles of beer on the wall, " + total + " bottles of beer.\nTake " + transform(total%count) + " down and pass around, no more bottles of beer on the wall.\n" +
+                "No more bottles of beer on the wall, no more bottles of beer.\n" +
+                "Go to the store and buy some more, 99 bottles of beer on the wall.";
 
         return lyrics;
         //throw new UnsupportedOperationException();
