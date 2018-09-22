@@ -31,13 +31,44 @@ package ru.ifmo.cet.javabasics;
  * Нужно ограничить возможность взятия бутылок натуральным число не более 99 бутылок за раз.
  */
 public class BottleSong {
+    private int count;
 
     public BottleSong(int bottleTakenAtOnce) {
-        //TODO
+        if (bottleTakenAtOnce > 99 || bottleTakenAtOnce <= 0) {
+            throw new IllegalArgumentException();
+        }
+        count = bottleTakenAtOnce;
+        System.out.print(getBottleSongLyrics());
+    }
+
+    private String transform(int bottles) {
+        final String[] numbers = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+                "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen",
+                "nineteen", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
+        if (bottles > 9 && bottles < 20) {
+            return (numbers[bottles-1]);
+        } else {
+            return (numbers[bottles/10-1] + numbers[bottles%10-1]);
+        }
     }
 
     public String getBottleSongLyrics() {
-        //TODO
-        throw new UnsupportedOperationException();
+        int total = 99;
+        String lyrics = "";
+        while (total - count > 0) {
+            String bottles = transform(count);
+
+            lyrics += total + " bottles of beer on the wall, " + total + " bottles of beer\n Take " + bottles +
+                    " down, pass it around ";
+            total -= count;
+            lyrics += total + " bottles of beer\n";
+
+        }
+        lyrics += "Take " + transform(total%count) + " down, pass it around, no more bottles of beer on the wall\n" +
+                " No more bottles of beer on the wall, no more bottles of beer\n" +
+                " Go to the store and buy some more, 99 bottles of beer on the wall";
+
+        return lyrics;
+        //throw new UnsupportedOperationException();
     }
 }
