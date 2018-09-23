@@ -31,44 +31,62 @@ package ru.ifmo.cet.javabasics;
  * Нужно ограничить возможность взятия бутылок натуральным число не более 99 бутылок за раз.
  */
 public class BottleSong {
+    // сколько можно взять бутылок за 1 раз
     private int count;
 
     public BottleSong(int bottleTakenAtOnce) {
+        // проверка на недопустимые значения
         if (bottleTakenAtOnce > 99 || bottleTakenAtOnce <= 0) {
             throw new IllegalArgumentException();
         }
         count = bottleTakenAtOnce;
-        System.out.print(getBottleSongLyrics());
+        getBottleSongLyrics();
     }
 
+    // преобразование чисел в их строковое представление
     private String transform(int bottles) {
-        final String[] numbers = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
-                "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen",
-                "nineteen", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
-        if (bottles > 9 && bottles < 20) {
-            return (numbers[bottles]);
+        final String[] numbers = {"one", "two", "three", "four", "five", "six", "seven", "eight",
+                "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen",
+                "seventeen", "eighteen", "nineteen"};
+        final String[] tens = {"twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
+        if (bottles < 20) {
+            return (numbers[bottles-1] + " ");
         } else {
-            return (numbers[bottles/10] + numbers[bottles%10]);
+            return (tens[bottles/10-2] + " " + (bottles%10==0 ? "":numbers[bottles%10-1] + " "));
         }
     }
 
+    // проверка на количество, чтобы выбрать единственное или множетсвенное число
+    private String checkNum(int num) {
+        if (num > 1) {
+            return " bottles";
+        }
+        return " bottle";
+    }
+
+    // формирование итогового текста песни
     public String getBottleSongLyrics() {
+
         int total = 99;
         String lyrics = "";
-        while (total - count > 0) {
-            String bottles = transform(count);
+        String firstString = " of beer on the wall";
+        String bottles = transform(count);
 
-            lyrics += total + " bottles of beer on the wall, " + total + " bottles of beer.\nTake " + bottles +
-                    " down and pass around, ";
+        while (total > count) {
+            lyrics += total + checkNum(total) + firstString + ", " + total + checkNum(total) +
+                    " of beer.\nTake " + bottles + "down and pass around, ";
             total -= count;
-            lyrics += total + " bottles of beer on the wall.\n";
-
+            lyrics += total + checkNum(total) + firstString + ".\n";
         }
-        lyrics += total + " bottles of beer on the wall, " + total + " bottles of beer.\nTake " + transform(total%count) + " down and pass around, no more bottles of beer on the wall.\n" +
-                "No more bottles of beer on the wall, no more bottles of beer.\n" +
-                "Go to the store and buy some more, 99 bottles of beer on the wall.";
 
+        lyrics += total + checkNum(total) + firstString + ", " + total + checkNum(total) + " of beer.\n";
+        // если общее количество кратно
+        total = (total == count) ? total:total%count;
+        lyrics += "Take " + transform(total) + "down and pass around, " +
+                "no more bottles of beer on the wall.\n";
+
+        lyrics += "No more bottles" + firstString + ", no more bottles of beer.\n" +
+                "Go to the store and buy some more, 99 bottles" + firstString + ".\n";
         return lyrics;
-        //throw new UnsupportedOperationException();
     }
 }
