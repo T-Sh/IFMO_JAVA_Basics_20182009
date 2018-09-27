@@ -42,7 +42,7 @@ public class WarAndPeaceExercise {
 
     private static String compareAndCheckCount() {
         List<Map.Entry<String,Integer>> list = new ArrayList<>(dictionary.entrySet());
-        Collections.sort(list, new Comparator<>() {
+        Collections.sort(list, new Comparator<Map.Entry<String,Integer>>() {
             @Override
             public int compare(Map.Entry<String, Integer> e1, Map.Entry<String, Integer> e2) {
                 if(e1.getValue().equals(e2.getValue()))
