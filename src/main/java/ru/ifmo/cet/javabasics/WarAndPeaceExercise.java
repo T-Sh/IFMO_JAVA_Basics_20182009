@@ -1,5 +1,6 @@
 package ru.ifmo.cet.javabasics;
 
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -21,13 +22,12 @@ public class WarAndPeaceExercise {
         findWord(tome12Path);
         findWord(tome34Path);
 
-        //return compareAndCheckCount().collect(Collectors.joining("\n"));
-        return dictionary.toString();
+        return compareAndCheckCount().collect(Collectors.joining("\n"));
     }
 
     private static void findWord(Path path) throws IOException {
-        String line = readAllLines(Paths.get("src", "main","resources", "WAPResult.txt")).stream().collect(Collectors.joining("\n"));
-        line = line.replaceAll("[^а-яА-Яa-zA-Z]", " ");
+        String line = readAllLines(path, Charset.forName("windows-1251")).stream().collect(Collectors.joining("\n"));
+        line = line.replaceAll("[^а-яА-Яa-zA-Z]", " ").toLowerCase();
         Stream<String> wordsStream = Stream.of(line.split(" "));
         wordsStream.filter(s -> s.length() >= 4).forEach((String s) -> {
             int def = dictionary.getOrDefault(s ,0) + 1;
@@ -38,7 +38,7 @@ public class WarAndPeaceExercise {
     private static Stream<String> compareAndCheckCount() {
         List<Map.Entry<String,Integer>> list = new ArrayList<>(dictionary.entrySet());
         Collections.sort(list, (e1, e2) ->
-            (e1.getValue().equals(e2.getValue())) ? e1.getKey().compareTo(e2.getKey()) : e1.getValue().compareTo(e2.getValue()));
+            (e1.getValue().equals(e2.getValue())) ? e1.getKey().compareTo(e2.getKey()) : e2.getValue().compareTo(e1.getValue()));
 
         return list.stream().filter(w -> w.getValue() > 9).map(entry -> entry.getKey() + " - " + entry.getValue());
     }
