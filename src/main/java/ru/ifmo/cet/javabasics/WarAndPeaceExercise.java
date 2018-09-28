@@ -56,6 +56,6 @@ public class WarAndPeaceExercise {
             if(entry.getValue() >= 10)
                 text += entry.getKey() + " - " + entry.getValue() + "\n";
         }
-        return text.substring(0,text.length()-1);
+        return text.trim();
     }
 }
