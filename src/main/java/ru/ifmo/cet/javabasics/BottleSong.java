@@ -58,7 +58,7 @@ public class BottleSong {
 
     // проверка на количество, чтобы выбрать единственное или множетсвенное число
     private String checkNum(int num) {
-        if (num > 1) {
+        if (num != 1) {
             return " bottles";
         }
         return " bottle";
